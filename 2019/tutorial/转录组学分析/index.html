@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>转录组学分析 - Bleak collection</title><meta description="这是一篇关于使用 Trinity 进行无参转录组分析的文章，首先会简单介绍转录组学，接着会介绍 Trinity 软件的使用，最后会记录相关的下游分析。"><meta property="og:type" content="blog"><meta property="og:title" content="转录组学分析"><meta property="og:url" content="https://waferlab.tk/2019/tutorial/%E8%BD%AC%E5%BD%95%E7%BB%84%E5%AD%A6%E5%88%86%E6%9E%90/"><meta property="og:site_name" content="Bleak collection"><meta property="og:description" content="这是一篇关于使用 Trinity 进行无参转录组分析的文章，首先会简单介绍转录组学，接着会介绍 Trinity 软件的使用，最后会记录相关的下游分析。"><meta property="og:locale" content="en_US"><meta property="og:image" content="https://waferlab.tk/2019/Tutorial/%E8%BD%AC%E5%BD%95%E7%BB%84%E5%AD%A6%E5%88%86%E6%9E%90/trinity.jpg"><meta property="article:published_time" content="2019-10-14T00:10:48.000Z"><meta property="article:modified_time" content="2019-10-14T11:15:20.000Z"><meta property="article:author" content="Genening"><meta property="article:tag" content="transcript"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/2019/Tutorial/%E8%BD%AC%E5%BD%95%E7%BB%84%E5%AD%A6%E5%88%86%E6%9E%90/trinity.jpg"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://waferlab.tk/2019/tutorial/%E8%BD%AC%E5%BD%95%E7%BB%84%E5%AD%A6%E5%88%86%E6%9E%90/"},"headline":"Bleak collection","image":["https://waferlab.tk/2019/Tutorial/%E8%BD%AC%E5%BD%95%E7%BB%84%E5%AD%A6%E5%88%86%E6%9E%90/trinity.jpg"],"datePublished":"2019-10-14T00:10:48.000Z","dateModified":"2019-10-14T11:15:20.000Z","author":{"@type":"Person","name":"Genening"},"description":"这是一篇关于使用 Trinity 进行无参转录组分析的文章，首先会简单介绍转录组学，接着会介绍 Trinity 软件的使用，最后会记录相关的下游分析。"}</script><link rel="canonical" href="https://waferlab.tk/2019/tutorial/%E8%BD%AC%E5%BD%95%E7%BB%84%E5%AD%A6%E5%88%86%E6%9E%90/"><link rel="icon" href="/img/favicon.ico"><link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/5.12.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/solarized-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&amp;family=Roboto+Mono&amp;family=Roboto:wght@400;700"><link rel="stylesheet" href="/css/default.css"><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script><meta name="generator" content="Hexo 5.1.1"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/favicon.ico" alt="Bleak collection" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2019-10-14T00:10:48.000Z" title="2019-10-14T00:10:48.000Z">2019-10-14</time></span><span class="level-item">Updated&nbsp;<time dateTime="2019-10-14T11:15:20.000Z" title="2019-10-14T11:15:20.000Z">2019-10-14</time></span><span class="level-item"> Genening </span><span class="level-item"><i class="fas fa-folder-open" style="margin-right:0.25rem"></i><a class="link-muted" href="/categories/Tutorial/">Tutorial</a><span> / </span><a class="link-muted" href="/categories/Tutorial/Bioinformatics/">Bioinformatics</a></span></div></div><h1 class="title is-3 is-size-4-mobile">转录组学分析</h1><div class="content"><p>这是一篇关于使用 Trinity 进行无参转录组分析的文章，首先会简单介绍转录组学，接着会介绍 Trinity 软件的使用，最后会记录相关的下游分析。<a id="more"></a></p>
+<h2 id="一、转录组学">一、转录组学</h2>
+<h3 id="概述：">概述：</h3>
+<ol>
+<li>转录组广义上指在某一生理条件下，细胞内所有转录组产物的集合，包括：mRNA、ncRNA、rRNA 等；狭义上指所有 mRNA 的集合。</li>
+<li>转录组测序的研究对象为特定细胞在某一功能状态下所能转录出来的所有 RNA 的总和，主要包括 mRNA 和 ncRNA。</li>
+<li>转录组具有时间特异性、组织特异性、空间特异性等特点。</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">类型</th>
+<th style="text-align:left">特点</th>
+<th style="text-align:left">分析策略</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">有参转录组</td>
+<td style="text-align:left">需要所研究的物种有组装注释质量较好基因组序列，一般来说比对效率达到 70% 以上才能满足后续分析。</td>
+<td style="text-align:left">比对—定量—差异分析—功能富集分析（下游分析）</td>
+</tr>
+<tr>
+<td style="text-align:left">无参转录组</td>
+<td style="text-align:left">缺乏相应的质量较高的基因信息，需要从零开始组装分析</td>
+<td style="text-align:left">组装—定量—差异分析—功能富集分析（下游分析）</td>
+</tr>
+</tbody>
+</table>
+<p>下游分析包括：GO 基因功能注释、KEGG 通路分析、mRNA 表达量计算、差异基因筛选、功能和通路富集分析、时间序列分析、共表达网络分析等。</p>
+<h2 id="二、trinity-介绍与使用">二、Trinity 介绍与使用</h2>
+<h3 id="基本介绍">基本介绍</h3>
+<p>Trinity 是由 Broad Institute 开发的转录组 de novo 组装软件，由三个独立的软件模块组成：<em>Inchworm （虫）（C++）</em> 、<em>Chrysalis （蛹）（C++）</em>、<em>Butterfly （蝶）（Java）</em>。三个软件依次来处理大规模的 RNA-seq 的 reads 数据。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">组成部分</th>
+<th style="text-align:left">作用</th>
+<th style="text-align:left">工作过程</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Inchworm （虫）（C++）</td>
+<td style="text-align:left">序列延伸</td>
+<td style="text-align:left">a. 将 reads 切为 k-mers (k bp 长度的短片段)<br>b. 利用 Overlap 关系对k-mers 进行延伸 (贪婪算法)<br>c. 输出所有的序列 (“contigs”)</td>
+</tr>
+<tr>
+<td style="text-align:left">Chrysalis （蛹）（C++）</td>
+<td style="text-align:left">构建 de Brujin graph</td>
+<td style="text-align:left">a. 聚类所有相似区域大于 k-1bp 的 contigs<br>b. 构图 (区分不同的 “components”)<br>c. 将 reads 比对回 components，进行验证</td>
+</tr>
+<tr>
+<td style="text-align:left">Butterfly （蝶）（Java）</td>
+<td style="text-align:left">解图，列举转录本</td>
+<td style="text-align:left">a. 拆分 graph 为线性序列<br>b. 使用 reads 以及 pairs 关系消除错误序列</td>
+</tr>
+</tbody>
+</table>
+<img src="/2019/tutorial/%E8%BD%AC%E5%BD%95%E7%BB%84%E5%AD%A6%E5%88%86%E6%9E%90/trinity_process.png" class="" title="工作原理">
+<h3 id="trinity使用">Trinity使用</h3>
+<h4 id="1-下载与安装-br">1. 下载与安装<br></h4>
+<p>trinity 最新版本是 v2.4.0，<a target="_blank" rel="noopener" href="https://github.com/trinityrnaseq/trinityrnaseq/wiki">下载</a>。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> nohup wget -c https://github.com/trinityrnaseq/trinityrnaseq/archive/Trinity-v2.4.0.tar.gz 1&gt;trinity.o 2&gt;trinity.e &amp;      <span class="comment"># 下载</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> tar -zxvf Trinity-v2.4.0.tar.gz       <span class="comment"># 解压</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> make      <span class="comment"># 编译</span></span></span><br></pre></td></tr></table></figure>
+<h4 id="2-使用">2. 使用</h4>
+<h5 id="命令：">命令：</h5>
+<p><code>Trinity --seqType fq --left reads_1.fq --right reads_2.fq --CPU 6 --max_memory 20G </code></p>
+<h5 id="几个重要参数介绍：">几个重要参数介绍：</h5>
+<ul>
+<li><code>--seqType</code> 支持输入数据格式为 <code>fq</code> 或者 <code>fa</code></li>
+<li><strong>双端测序：</strong><code>--left</code> 为read1，<code>--right</code> 为 read2，多个样品的 reads 由逗号隔开，不允许出现空格（依版本而定）</li>
+<li><strong>单端测序：</strong><code>--single</code> 加上文件 多个样品的 reads 由逗号隔开，不允许出现空格（依版本而定）</li>
+<li><code>--CPU</code> 软件所用 CPU 数量</li>
+<li><code>--max_memory</code> 内存控制（组装过程中，jellyfish 这一步是最耗费资源的一步 所以这个内存主要由 jellyfish 控制）</li>
+<li><code>--SS_lib_type RF</code>   链特异性文库需要加上这个参数，其中 RF 表示文库的构建方法，<a target="_blank" rel="noopener" href="http://www.genek.tv/article/27">点这了解，最好看看</a></li>
+<li><code>--no_run_butterfly</code> 不进行 butterfly 步骤，在 Chrysalis 这一步完成后中断</li>
+<li><code>--no_run_quantifygraph</code> 不进行 quantifygraph 这一步</li>
+<li><code>--output</code> trinity 的输出文件夹，默认在<code>trinity_out_dir/Trinity.fasta</code></li>
+<li><code>--no_version_check</code> 不汇报版本信息</li>
+</ul>
+<h5 id="结果">结果</h5>
+<p>最终会得到一个 <code>Trinity.fasta</code> 的文件，在同文件夹下还会有其他的中间过程产生的文件，其中这个文件最为重要，是最终的组装结果。</p>
+<h2 id="三、下游分析（有待完善）">三、下游分析（有待完善）</h2>
+<h3 id="1-go功能注释">1. GO功能注释</h3>
+<h3 id="2-kegg通路分析">2. KEGG通路分析</h3>
+<h3 id="3-差异基因分析与筛选">3. 差异基因分析与筛选</h3>
+<h3 id="4-功能和通路富集分析">4. 功能和通路富集分析</h3>
+<h3 id="5-结果可视化（火山图、箱线图、maplot、pheatmap等）">5. 结果可视化（火山图、箱线图、MAplot、pheatmap等）</h3>
+<p><strong>参考资料</strong></p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://github.com/trinityrnaseq/trinityrnaseq/wiki">官方文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.meiwen.com.cn/subject/bnsokctx.html">介绍博客</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.360doc.com/content/16/0910/15/35684706_589802384.shtml">无参转录组分析</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.omicsclass.com/article/295">转录组学知识点</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.meiwen.com.cn/subject/tsutnqtx.html">可视化分析</a>（重点火山图）</li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/niuhuihui_fei/article/details/72723781">介绍博客</a>（Trinity参数）</li>
+</ol>
+</div><div class="article-licensing box"><div class="licensing-title"><p>转录组学分析</p><p><a href="https://waferlab.tk/2019/tutorial/%E8%BD%AC%E5%BD%95%E7%BB%84%E5%AD%A6%E5%88%86%E6%9E%90/">https://waferlab.tk/2019/tutorial/%E8%BD%AC%E5%BD%95%E7%BB%84%E5%AD%A6%E5%88%86%E6%9E%90/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>Genening</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2019-10-14</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2019-10-14</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icon" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a><a class="" rel="noopener" target="_blank" title="CC BY-NC-SA 4.0" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p></div></div></div></div></div><div class="article-tags size-small mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/transcript/">transcript</a></div><!--!--></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2019/note/Bioelectronics/%E5%BF%83%E8%82%8C%E7%BB%86%E8%83%9E%E7%94%9F%E7%89%A9%E5%AD%A6%E5%9F%BA%E7%A1%80%E5%8F%8A%E4%BC%A0%E6%84%9F%E5%99%A8%E6%A3%80%E6%B5%8B%E5%8E%9F%E7%90%86/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">心肌细胞生物学基础及传感器检测原理</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2019/note/%E6%95%B0%E5%AD%97%E9%9B%86%E6%88%90%E7%94%B5%E8%B7%AF%E8%AE%BE%E8%AE%A1/%E6%95%B0%E5%AD%97%E9%9B%86%E6%88%90%E7%94%B5%E8%B7%AF%E8%AE%BE%E8%AE%A1%E7%9B%AE%E5%BD%95/"><span class="level-item">数字集成电路设计目录</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><!--!--></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar" src="https://genening.github.io/images/avatar.png" alt="Genening"></figure><p class="title is-size-4 is-block line-height-inherit">Genening</p><p class="is-size-6 is-block">Nothing is everything</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>SYSU</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">Posts</p><a href="/archives"><p class="title">40</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Categories</p><a href="/categories"><p class="title">15</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Tags</p><a href="/tags"><p class="title">30</p></a></div></div></nav><div class="level is-mobile"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/genening"><i class="fab fa-github"></i></a></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/favicon.ico" alt="Bleak collection" height="28"></a><p class="size-small"><span>&copy; 2020 Genening</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: false,
+                    fold: ''
+                }
+            }
+        };</script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mhchem.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
+        });</script></body></html>
