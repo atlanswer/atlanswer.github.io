@@ -11341,6 +11341,9 @@ figure.highlight .section {
 .gist .file {
   all: initial;
 }
+.gist .gist-data {
+  max-height: 35em;
+}
 .widget .menu-list li ul {
   margin-right: 0;
 }
