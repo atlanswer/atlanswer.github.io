@@ -6,41 +6,7 @@
 </ol>
 <h2 id="solution">Solution</h2>
 <p><strong>Evolutionary algorithm (EA)</strong>: a generic population-based  metaheuristic optimization algorithm, ideally making no assumption about the underlying fitness landscape.</p>
-<img src="/2021/note/An-Efficient-Surrogate-Assisted-Particle-Swarm-Optimization-for-Antenna-Synthesis/fitness_landscape.gif" class="" title="Visualized fitness landscapes[^fitness_landscape]">
-<h3 id="steps">Steps:</h3>
-<ol>
-<li>Randomly generate the initial population of individuals;</li>
-<li>Repeat until termination:
-<ol>
-<li>Evaluate the fitness of each individual in the population;</li>
-<li>Select parents: the fittest individuals;</li>
-<li>Breed new individuals with crossover and mutation;</li>
-<li>Replace the least-fit individuals of the population with new individuals.</li>
-</ol>
-</li>
-</ol>
-<h3 id="types">Types:</h3>
-<ul>
-<li><strong>Genetic algorithm (GA)</strong>: One seeks the solution of a problem in the form of strings of numbers, by applying operators such as recombination and mutation;</li>
-<li><strong>Differential evolution (DE)</strong>: Based on vector differences and is therefore primarily suited for numerical optimization problems.</li>
-<li><strong>Particle swarm optimization (PSO)</strong>: Only the objective function is needed and it is not dependent on the gradient or any differential form of the objective.</li>
-</ul>
-<h3 id="limitations">Limitations</h3>
-<p>The computational budget of EA-based antenna synthesis is usually high because of various exact function evaluations are required at each iteration and hundreds of iterations are needed for a global optimal solution.</p>
-<h3 id="surrogate-assisted-evolutionary-algorithms-saeas">Surrogate assisted evolutionary algorithms (SAEAs)</h3>
-<h4 id="surrogate-modeling">Surrogate Modeling</h4>
-<img src="/2021/note/An-Efficient-Surrogate-Assisted-Particle-Swarm-Optimization-for-Antenna-Synthesis/surrogate_modeling.png" class="" title="Figure 1: Using a surrogate model to replace the expensive computer simulations is one way to improve the analysis efficiency[^tds].">
-<p>Accurately approximate the simulation output by constructing statistical model (or surrogate model).</p>
-<h5 id="characteristics">Characteristics</h5>
-<p>Surrogate modeling is a special case of supervised machine learning applied in the field of engineering design. Its training data is obtained via probing the simulation outputs at several intelligently selected locations in the design parameter space. At each of these locations, a full simulation is conducted to calculate the corresponding simulation output.<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup></p>
-<h5 id="steps-v2">Steps<sup class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup></h5>
-<ol>
-<li><strong>Sampling</strong>: generating initial training data by selecting samples of the design parameters from their parameter space, preferably to have samples that are spread evenly across the parameter space.</li>
-<li><strong>Output evaluations</strong>: run the simulations for each sample, resulting the initial training dataset;</li>
-<li><strong>Construct the surrogate model</strong>: usually by utilizing established machine learning algorithms;</li>
-<li><strong>Active learning</strong>: enrich the training dataset as the training progresses by crafting learning functions to allocate samples to regions where the model is thought to be inaccurate or uncertain, or to regions of interests.</li>
-<li><strong>Enrich training dataset</strong>: Perform new simulations runs to retrain the model.</li>
-</ol></div><a class="article-more button is-small is-size-7" href="/2021/note/An-Efficient-Surrogate-Assisted-Particle-Swarm-Optimization-for-Antenna-Synthesis/#more">Read more</a></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2021-10-17T03:00:56.000Z" title="10/17/2021, 3:00:56 AM">2021-10-17</time></span><span class="level-item">Updated&nbsp;<time dateTime="2021-10-17T03:00:56.000Z" title="10/17/2021, 3:00:56 AM">2021-10-17</time></span><span class="level-item"> Atlanswer </span><span class="level-item"><i class="fas fa-folder-open" style="margin-right:0.25rem"></i><a class="link-muted" href="/categories/Note/">Note</a></span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2021/note/A-bite-of-AiP-MLAO/">A bite of AiP &amp; MLAO</a></h1><div class="content"><h2 id="antenna-in-package-aip">Antenna-in-Package (AiP)</h2>
+<img src="/2021/note/An-Efficient-Surrogate-Assisted-Particle-Swarm-Optimization-for-Antenna-Synthesis/fitness_landscape.gif" class="" title="Visualized fitness landscapes[^fitness_landscape]"></div><a class="article-more button is-small is-size-7" href="/2021/note/An-Efficient-Surrogate-Assisted-Particle-Swarm-Optimization-for-Antenna-Synthesis/#more">Read more</a></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2021-10-17T03:00:56.000Z" title="10/17/2021, 3:00:56 AM">2021-10-17</time></span><span class="level-item">Updated&nbsp;<time dateTime="2021-10-17T03:00:56.000Z" title="10/17/2021, 3:00:56 AM">2021-10-17</time></span><span class="level-item"> Atlanswer </span><span class="level-item"><i class="fas fa-folder-open" style="margin-right:0.25rem"></i><a class="link-muted" href="/categories/Note/">Note</a></span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2021/note/A-bite-of-AiP-MLAO/">A bite of AiP &amp; MLAO</a></h1><div class="content"><h2 id="antenna-in-package-aip">Antenna-in-Package (AiP)</h2>
 <div class="message is-link">
   <div class="message-body">
     Overview reference: <em>Zhang, Y. and J. Mao (2019). <i>"An Overview of the Development of Antenna-in-Package Technology for Highly Integrated Wireless Devices."</i> Proceedings of the IEEE 107(11): 2265-2280.</em>
