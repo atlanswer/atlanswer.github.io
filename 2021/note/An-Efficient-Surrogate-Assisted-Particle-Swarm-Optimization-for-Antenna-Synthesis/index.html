@@ -56,10 +56,16 @@
 <li><strong>Enrich training dataset</strong>: Perform new simulations runs to retrain the model.</li>
 </ol>
 <h5 id="models">Models</h5>
+<img src="/2021/note/An-Efficient-Surrogate-Assisted-Particle-Swarm-Optimization-for-Antenna-Synthesis/surrogate_model.png" class="" title="Surrogate model" alt="Fig. 4. The procedure of online data-driven surrogate model for antenna optimization.">
+<p>Online, data-driven mode 👆.</p>
 <ul>
 <li>Radial basis function (RBF) network:</li>
 </ul>
-<img src="/2021/note/An-Efficient-Surrogate-Assisted-Particle-Swarm-Optimization-for-Antenna-Synthesis/surrogate_model.png" class="" title="Surrogate model" alt="Fig. 2. The procedure of online data-driven surrogate model for antenna optimization.">
+<p>RBF networks are selected as the principal surrogate models for accurately predicting the responses of untried antenna structures, because RBF has been proved to be remarkable accuracy for high-dimensional problems.</p>
+<p>The metamodels are initially trained based on a dataset consisting of \(n\) distinct vectors, \(\bm{x}_1\), \(\bm{x}_2\), \(\ldots\), \(\bm{x}_n\in\Reals^D\), and each vector \(\bm{x}_i\) represents a solution of the geometrical parameters for the given antenna structure, \(f(\bm{x}_i)\in\Reals\) is the corresponding performance metric, which is computed by exact EM simulations.</p>
+<p>The predicted performance metric of an undetermined vector \(\bm{x}_{n+1}\) can be approximated by</p>
+<p>\[\hat{f}(\bm{x}<em>{n+1})=\sum^n</em>{i=1}\lambda_i\Phi_i\left(||\bm{x}_{n+1}-\bm{x}<em>i||\right)+p(\bm{x}</em>{n+1})\tag{1}\]</p>
+<p>where \(\Phi_i\) is \(i\)th basis function, and \(||\cdot||\) indicates the Euclidean distance, and \(p(\bm{x})=\bm{b}^T\bm{x}+a\) is a linear polynomial function.</p>
 <ul>
 <li>Simplified Kriging model</li>
 </ul>
