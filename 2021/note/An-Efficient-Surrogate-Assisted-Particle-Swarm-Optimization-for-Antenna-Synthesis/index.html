@@ -64,7 +64,10 @@
 <p>RBF networks are selected as the principal surrogate models for accurately predicting the responses of untried antenna structures, because RBF has been proved to be remarkable accuracy for high-dimensional problems.</p>
 <p>The metamodels are initially trained based on a dataset consisting of \(n\) distinct vectors, \(\bm{x}_1\), \(\bm{x}_2\), \(\ldots\), \(\bm{x}_n\in\Reals^D\), and each vector \(\bm{x}_i\) represents a solution of the geometrical parameters for the given antenna structure, \(f(\bm{x}_i)\in\Reals\) is the corresponding performance metric, which is computed by exact EM simulations.</p>
 <p>The predicted performance metric of an undetermined vector \(\bm{x}_{n+1}\) can be approximated by</p>
-<p>\[\hat{f}(\bm{x}<em>{n+1})=\sum^n</em>{i=1}\lambda_i\Phi_i\left(||\bm{x}_{n+1}-\bm{x}<em>i||\right)+p(\bm{x}</em>{n+1})\tag{1}\]</p>
+<p>\[
+\hat{f}(\bm{x}_ {n+1})=\sum^n_{i=1}\lambda_i\Phi_i\left(||\bm{x} _{n+1}-\bm{x} _i||\right)+p(\bm{x} _{n+1})
+\tag{1}
+\]</p>
 <p>where \(\Phi_i\) is \(i\)th basis function, and \(||\cdot||\) indicates the Euclidean distance, and \(p(\bm{x})=\bm{b}^T\bm{x}+a\) is a linear polynomial function.</p>
 <ul>
 <li>Simplified Kriging model</li>
@@ -72,9 +75,9 @@
 <h3 id="particle-swarm-optimization-pso">Particle Swarm Optimization (PSO)</h3>
 <p>Particle Swarm Optimization was proposed by Kennedy and Eberhart in 1995<sup class="footnote-ref"><a href="#fn5" id="fnref5">[5]</a></sup>. As mentioned in the original paper, sociobiologists believe a school of fish or a flock of birds that moves in a group &quot;can profit from the experience of all other members&quot;. While we can simulate the movement of a flock of birds, we can also imagine each bird is to help us find the optimal solution in a high-dimensional solution space and the best solution found by the flock is the best solution in the space<sup class="footnote-ref"><a href="#fn6" id="fnref6">[6]</a></sup>.</p>
 <p>Assume we have \(P\) particles and the position of particle \(i\) at iteration \(t\) is \(X^i(t)\). Besides the position, we have the a velocity for each particle \(V^i(t)\). At the next iteration, the position of each particle would be updated as</p>
-<p>\[X^i(t+1)=X^i(t)+V^i(t+1)\tag{1}\]</p>
+<p>\[X^i(t+1)=X^i(t)+V^i(t+1)\tag{2}\]</p>
 <p>and the velocities are updated by the rule</p>
-<p>\[V^i(t+1)=wV^i(t)+c_1r_1(p^i(t)-X^i(t))+c_2r_2(p^g(t)-X^i(t))\tag{2}\]</p>
+<p>\[V^i(t+1)=wV^i(t)+c_1r_1(p^i(t)-X^i(t))+c_2r_2(p^g(t)-X^i(t))\tag{3}\]</p>
 <p>where \(c_1\) and \(c_2\) are acceleration coefficients, \(r_1\) and \(r_2\) are random values in the range of \([0,1]\), \(p^g(t)\) represents the global best position of the swarm and \(p^i(t)\) represents the historical best position of particle \(i\) found until iteration \(t\). The iteration terminates if the maximum number of iterations is reached, \(p^g(t)\) and \(p^i(t)\) are updated according the exact function evaluations for all the particles. The result is the global best position \(p^g\), revealing the optimal parameters of the given antenna structure.</p>
 <h4 id="implementation">Implementation</h4>
 <img src="/2021/note/An-Efficient-Surrogate-Assisted-Particle-Swarm-Optimization-for-Antenna-Synthesis/pso9.gif" class="" title="Animation of particle movements" alt="PSO demonstration[^intro_pso]">
