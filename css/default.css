@@ -1,6 +1,3 @@
-.katex-display {
-  overflow-y: hidden;
-}
 @-moz-keyframes spinAround {
   from {
     transform: rotate(0deg);
@@ -11565,11 +11562,16 @@ figure.highlight .section {
   overflow-x: auto;
   overflow-y: hidden;
 }
+.katex-display > .katex {
+  display: inline-block;
+  max-width: 100%;
+  text-align: initial;
+}
 .katex {
   white-space: nowrap;
 }
 .katex-display {
-  margin-top: -1em !important;
+  margin-top: -0.5em !important;
 }
 .katex-html {
   padding-top: 1em;
