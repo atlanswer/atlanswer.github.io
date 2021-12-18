@@ -28,7 +28,7 @@ S(t)=A(t)e^{j\varphi(t)}=A(t)\cos(\varphi(t))+jA(t)\sin(\varphi(t))=I(t)+jQ(t)
 <p><strong>--WIP--</strong></p>
 <p>根据此方法进行信号处理的第一步是从接收到的信号 \(s(t)\) 中分离出两路正交的 \(I\)/\(Q\) 信号。首先在接收端生成一个与发送端同频同相的载波信号 \(\cos(\omega t)\) 和对该载波信号移相 90° 的信号 \(\sin(\omega t)\)，将其分别与接收到的信号相乘
 \[
-\begin{align}
+\begin{aligned}
 s(t)\cos(\omega t)
 &amp;= A(t)\cos(\omega t+\varphi(t))\cos(\omega t) \
 &amp;= \frac{1}{2}A(t)[\cos(\omega t+\varphi(t)+\omega t)+\cos(\omega t + \varphi(t)-\omega t)] \
@@ -39,7 +39,7 @@ s(t)\sin(\omega t)
 &amp;= \frac{1}{2}A(t)[\sin(\omega t+\varphi(t)+\omega t)-\sin(\omega t + \varphi(t)-\omega t)] \
 &amp;= \frac{1}{2}A(t)[\sin(2\omega t)\cos(\varphi(t))+\cos(2\omega t)\sin(\varphi(t))-\sin(\varphi(t))] \
 &amp;= -\frac{1}{2}Q(t)+\frac{1}{2}I(t)\sin(2\omega t)+\frac{1}{2}Q(t)\cos(2\omega t)
-\end{align}
+\end{aligned}
 \]
 将相乘后的信号进行低通滤波即可得到同相和正交分量。</p>
 <p><a target="_blank" rel="noopener" href="http://www.ni.com/tutorial/4805/en/">http://www.ni.com/tutorial/4805/en/</a></p>

@@ -10,21 +10,21 @@
 <li><a target="_blank" rel="noopener" href="http://www.mplayerhq.hu/DOCS/HTML/en/menc-feat-x264.html#menc-feat-x264-encoding-options">http://www.mplayerhq.hu/DOCS/HTML/en/menc-feat-x264.html#menc-feat-x264-encoding-options</a></li>
 </ul>
 <span id="more"></span>
-<h3 id="advanced-video-coding">Advanced Video Coding</h3>
+<h2 id="advanced-video-coding">Advanced Video Coding</h2>
 <p>Advanced Video Coding (AVC)，又称 H.264 或 MPEG-4 Part 10, AVC，是目前最流行的视频格式，最早于 2003 年标准化。AVC 的优势在于最广泛的支持，使用 AVC 编码的视频几乎可以在任何设备上播放。但随着技术进步，AVC 已不适合编码 4K 及以上分辨率或具备 HDR 的视频。</p>
-<h4 id="功能">功能</h4>
-<h5 id="帧类型">帧类型</h5>
+<h3 id="功能">功能</h3>
+<h4 id="帧类型">帧类型</h4>
 <p>视频压缩技术可利用其他帧的信息来压缩某一帧。被其他帧用作参考的帧称为参考帧（reference frame）。用于根据帧在视频中的位置，压缩算法将为每帧分配一个帧类型（picture/frame types），主要分为 <strong>I</strong>、<strong>P</strong> 和 <strong>B</strong> 帧：</p>
 <ul>
 <li><strong>I</strong> 帧（intra-coded picture）是一张完整的图片，压缩率最低，但不需要参考其他任何帧来解码，在播放跳转时速度最快</li>
 <li><strong>P</strong> 帧（predicted picture）参考出现在其之前的帧，仅保存该帧与参考帧之间的不同之处</li>
 <li><strong>B</strong> 帧（bidirectional predicted picture）同时参考在其之前和之后的帧</li>
 </ul>
-<h5 id="gop">GOP</h5>
+<h4 id="gop">GOP</h4>
 <p>IPB 帧按顺序的组合称作图像组（group of picture, GOP）。一个 GOP 以 I 帧开始，其中分布 P 和 B 帧。一个 GOP 应为可播放的单元，一个视频由各 GOP 顺序连接而成。GOP 结构可由 N 和 M 两个参数描述，GOP 大小 N 表示 GOP 开始 I 帧与下一个 GOP 开始的 I 帧之间的距离，M 表示相邻两个锚点帧（可以是 I 或 P 帧）之间的距离，或者表示为两个锚点帧之间 B 帧的最大数量。</p>
 <p>GOP 分为 open GOP 和 closed GOP，参考<a target="_blank" rel="noopener" href="https://streaminglearningcenter.com/blogs/open-and-closed-gops-all-you-need-to-know.html">这里</a>。open GOP 允许 GOP 内的帧参考该 GOP 外的帧；closed GOP 中，帧不会参考其他 GOP 的帧。两个相邻的 IDR 帧将定义一个 closed GOP，这也就意味着，如果所有 I 帧都是 IDR 帧，则所有 GOP 都是 closed GOP；反之如果所有 I 帧都不是 IDR 帧，则有些 GOP 可能为 open GOP。</p>
 <p>open GOP 理论上编码效率更高，<code>x264</code> 默认使用 closed GOP，<code>x265</code> 默认使用 open GOP。</p>
-<h5 id="宏块">宏块</h5>
+<h4 id="宏块">宏块</h4>
 <p>帧通常被分割为若干宏块（macroblock），每个宏块对应一种预测类型，即节点宏块（intra macroblock）、预测宏块（predicted macroblock）和前后预测宏块（bi-predicted macroblock）。</p>
 <ul>
 <li>I 帧仅包含节点宏块</li>
@@ -33,22 +33,22 @@
 </ul>
 <p>宏块是视频编码的单元，对应一次线性块变换，在 AVC 中为离散余弦变换（discrete cosine transform, DCT），在 HEVC 中该概念发展为编码树单元（coding tree unit, CTU）。一个宏块被分为变换块作为 DCT 的输入，例如，在第一个使用宏块的编码 H.261 中，DCT 变换块大小为 8×8，对 YCbCr 4:2:0 进行编码，一个宏块大小为 16×16，包含 16×16 亮度平面采样点和 8×8 色度平面采样点，则该宏块被分为 4 个 Y 块，1 个 Cb 块和 1 个 Cr 块。</p>
 <p>视频压缩的粒度由分块（slice）决定，一个分块是在空间上与帧内其他分块独立的区域，在编码时分块间独立。</p>
-<h5 id="idr-帧">IDR 帧</h5>
+<h4 id="idr-帧">IDR 帧</h4>
 <p>又称关键帧（keyframe），Instantaneous decoding refresh (IDR) 帧的所有分块都是 I 分块或 SI 分块，也就是说 IDR 帧是一种特殊的 I 帧。当解码进行到 IDR 帧时，所有参考帧都被忽略，即 IDR 帧解码后，后续帧的解码不再依靠 IDR 帧之前的帧。一个 GOP 的第一帧是 IDR 帧。</p>
 <p>IDR 帧可以立即刷新参考帧缓冲区，能让视频跳转更丝滑。</p>
 <p>根据定义，I 帧不一定都是 IDR 帧，但在压缩视频时，每个 I 帧都应称为 IDR 帧，即不允许 non-IDR 帧。</p>
-<h5 id="帧和场">帧和场</h5>
+<h4 id="帧和场">帧和场</h4>
 <p>单词 frame 和 picture 一般意义相同，但 picture 是更广泛的概念。一个 picture 可指一个帧（frame）或一个场（field）：</p>
 <ul>
 <li>帧（frame）指一张完整的图片</li>
 <li>场（field）是完整画面一半的扫描线（scan line）的组合</li>
 </ul>
 <p>使用模拟信号的视频可使用市电做时钟同步，但早期的视频播放媒介 CRT 显示器受频宽限制，无法按 60 Hz 或 50 Hz 的市电频率刷新完整的图像；若按半频即 30 Hz 或 25 Hz 播放，帧刷新又太慢，使得电子束扫描到图像下方时上方的像素已经变暗，导致观众观感画面闪烁。隔行扫描（interlaced scan）技术被用于解决这类问题。</p>
-<h6 id="隔行扫描">隔行扫描</h6>
+<h5 id="隔行扫描">隔行扫描</h5>
 <p>隔行扫描技术仅用于扫描式显示设备例如 CRT 电视。阴极射线从上到下一行一行扫描激发荧光来显示图像，一行像素即一条扫描线。逐行扫描即依次显示所有扫描线，而隔行扫描每次只传输并显示一半的扫描线，即场。一个场包含第 1、3、5... 行，即所有奇数行的扫描线，称为奇数场或前场；另一个场包含第 2、4、6... 行，即所有偶数行的扫描线，称为偶数场或后场。</p>
 <p>隔行扫描增加了观感帧率，减少视觉闪烁。例如使用 PAL 制式，市电频率为 50 Hz 的电视，可以在有限的频宽内显示每秒 50 个场。NTSC 和 PAL 制式均先显示奇数场，再显示偶数场。</p>
 <p>值得注意的是，隔行扫描并非是逐行扫描画面的扫描线按奇偶分为两份。前场和后场在画面空间上互补组成一幅完整的图像，即 PAL 制式下每 1/25 秒电子束点亮显示器所有的像素各一次，但时间上两者对应的内容相差 1/50 秒。隔行扫描技术需要应用在录制、传输和显示等环节，在摄像机录制视频时已经在使用隔行的方式保存视频，因此前后场的组合并非是时间上相同的图像，画面中移动的部分会产生横向的锯齿状线条；如果两场刚好是场景交换之处，则会组成两个场景同时出现的鬼影画面。</p>
-<h5 id="帧间预测">帧间预测</h5>
+<h4 id="帧间预测">帧间预测</h4>
 <p>帧间预测（inter-picture prediction）可参考复数个帧：</p>
 <ul>
 <li>允许 P 和 B 帧拥有更多参考帧，显著降低快速重复闪光、反复剪切或遮挡场景的码率</li>
@@ -58,7 +58,7 @@
 <li>使用六阶数字滤波器推测亮度平面半像素采样点以得到更锐利的亚像素运动补偿效果，1/4 像素的运动由半像素的线性插值得到。运动补偿可精确到 1/4 像素，对 4:2:0 采样的色度平面，这意味着运动补偿可达到 1/8 测度采样点尺寸</li>
 <li>加权运动预测使编码器能为运动补偿加权或做偏移，对淡入、淡出和淡入淡出转换等场景提供性能提升</li>
 </ul>
-<h5 id="帧内编码">帧内编码</h5>
+<h4 id="帧内编码">帧内编码</h4>
 <p>帧内编码可使用相邻块边缘做空间预测，亮度平面预测块大小可为 16×16、8×8 或者 4×4，每个宏块内只能使用其中一种。</p>
 <p>引入整数离散余弦变换（integer discrete cosine transform, integer DCT），一种 DCT 的整数近似。</p>
 <p>允许无损宏块编码。</p>
@@ -67,13 +67,13 @@
 <li>PAFF：对运动图像，将两个场分别编码更好，对非运动图像，将两场合并编码效果更好，PAFF 会根据整个图像的特点选择帧编码或是场编码</li>
 <li>MBAFF：当图像同时存在运动区域和非运动区域时，MBAFF 合并两个场为一帧进行编码，对一个帧宏块（16×16），选择帧编码或者将其分为两个场宏块（8×16）进行场编码中更好的一个</li>
 </ul>
-<h4 id="profiles">Profiles</h4>
+<h3 id="profiles">Profiles</h3>
 <p>AVC 档次（profiles）定义了编码器使用的算法和约束的组合，对应解码器需要具备的能力和额外的视频功能，如场编码、10 bits 像素等。档次越高，编码器使用的技术越复杂，对解码器的要求越高，可能带来更高的压缩率。</p>
 <p>参考 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Advanced_Video_Coding#Feature_support_in_particular_profiles">Wikipedia</a></p>
-<h4 id="levels">Levels</h4>
+<h3 id="levels">Levels</h3>
 <p>AVC 级别（levels）在档次的基础上增加额外的限制，标志着解码器在某一档次下应具有的解码性能。某一档次下的某一级别说明了其最高分辨率、帧率和码率。</p>
 <p>参考 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Advanced_Video_Coding#Levels">Wikipedia</a>，例如，级别 4.2 下，视频不能超过 2048×1080@60，50000 kbits/s。</p>
-<h3 id="x264-命令行参数"><code>x264</code> 命令行参数</h3>
+<h2 id="x264-命令行参数"><code>x264</code> 命令行参数</h2>
 <p>为方便这里贴出 <code>--fullhelp</code></p>
 <!-- /* cSpell:disable */ -->
 <details>
@@ -84,37 +84,37 @@
 </details>
 <!-- /* cSpell:enable */ -->
 <br>
-<h4 id="预设">预设</h4>
+<h3 id="预设">预设</h3>
 <p>方便日常使用，真正压制时手动指定所有选项，不需要加上预设。</p>
-<h5 id="profile"><code>profile</code></h5>
+<h4 id="profile"><code>profile</code></h4>
 <p><strong>默认：Not Set</strong></p>
 <p>强制编码器使用某一档次的能力。该选项将覆盖所有其他选项。</p>
 <p>不指定档次或级别时编码器会自动分配，但现在都 1202 年了，不太可能有不支持 AVC High Profile, Level 5.1 的播放器，因此无需指定此选项。值得注意的是，使用 <code>--qp 0</code> 或 <code>--crf 0</code> 制作无损视频时，色度采样无论是 4:2:0、4:2:2 还是 4:4:4，输出视频的档次都是 Hi444PP，并不代表原视频的采样是 4:4:4。</p>
-<h5 id="preset"><code>preset</code></h5>
+<h4 id="preset"><code>preset</code></h4>
 <p><strong>默认：medium</strong></p>
 <p>一组编码设置，让编码器在编码速度和压缩效率之间做权衡。<code>--preset</code> 加在所有选项之前，可被用户指定的选项覆盖。</p>
 <p>包括 <code>ultrafast</code>、<code>superfast</code>、<code>veryfast</code>、<code>faster</code>、<code>fast</code>、<code>medium</code>、<code>slow</code>、<code>slower</code>、<code>veryslow</code>、<code>placebo</code>，同码率下开得越高画面越好，编码也越慢，选择能接受的最慢的选项。</p>
-<h5 id="tune"><code>tune</code></h5>
+<h4 id="tune"><code>tune</code></h4>
 <p><strong>默认：Not Set</strong></p>
 <p>根据输入视频的内容类型进一步做优化，该选项加在 <code>--preset</code> 之后，其他选项之前，可被用户指定的选项覆盖。</p>
 <p>可选项包括 <code>film</code>、<code>animation</code>、<code>grain</code>、<code>stillimage</code>、<code>psnr</code>、<code>ssim</code>、<code>fastcode</code>、<code>zerolatency</code>，可同时指定多个，但前六个属于 psy tuning，只能选其中一个。</p>
 <p>仅在输入视频内容符合以上选项时使用，否则应留空。这里面 <code>animation</code> 是给美式动画用的，对应大面积的单色块、少纹理和光影，不适合现代日式动画。</p>
-<h5 id="slow-firstpass"><code>slow-firstpass</code></h5>
+<h4 id="slow-firstpass"><code>slow-firstpass</code></h4>
 <p>使用 <code>--pass 1</code> 时会引入额外的选项加快 first pass，该选项将禁用这些做法。因为一般用 CRF，因此不用理会此选项。</p>
-<h4 id="帧类型-v2">帧类型</h4>
-<h5 id="keyint"><code>keyint</code></h5>
+<h3 id="帧类型-v2">帧类型</h3>
+<h4 id="keyint"><code>keyint</code></h4>
 <p><strong>默认：250</strong></p>
 <p>指定相邻两个 IDR 帧之间的最大距离，可以是整数或者 <code>infinite</code>，后者意味着非场景转换处不会出现 IDR 帧。</p>
 <p>IDR 帧的特性使其作为播放跳转的描点，即关键帧。减小 <code>keyint</code> 使得进度条拖动更顺滑。</p>
-<h4 id="码率控制">码率控制</h4>
+<h3 id="码率控制">码率控制</h3>
 <p>编码器一般提供两种码率控制模式：恒定质量（CRF、CQP）和恒定码率（ABR/CBR），一般只使用恒定质量模式（constant quality mode, aka constant ratefactor, CRF）。</p>
-<h5 id="qp"><code>qp</code></h5>
+<h4 id="qp"><code>qp</code></h4>
 <p><strong>默认：Not Set</strong></p>
 <p>让编码器使用恒定量化模式（constant quantizer mode, CQP），该选项与 <code>--crf</code> 冲突。CRF 比 CQP 高级，相对也不会太慢，所以不用 CQP 模式。</p>
-<h5 id="bitrate"><code>bitrate</code></h5>
+<h4 id="bitrate"><code>bitrate</code></h4>
 <p><strong>默认：Not Set</strong></p>
 <p>对应恒定码率模式，编码器尝试控制平均码率，该选项也与 <code>--crf</code> 冲突。只在遇到限制码率场合使用。</p>
-<h5 id="crf"><code>crf</code></h5>
+<h4 id="crf"><code>crf</code></h4>
 <p><strong>默认：23.0</strong></p>
 <p>让编码器使用 CRF，尝试确保恒定的画面“质量”。<code>--crf n</code> 试图达到与 <code>--qp n</code> 相同的目视质量，但使用更低的码率。CRF 试图提高复杂度高或者高动态等对观众来说更不容易注意到的画面的量化值，这会降低对这类画面的码率分配，将节省的码率分给对提升目视质量更有效的画面。</p>
 <p>CRF 比 2pass 更快，相当于跳过了 'first-pass' 的 2pass，但无法预测最终视频文件的码率。</p>
