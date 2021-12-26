@@ -10,6 +10,11 @@
 <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">res = mvf.ToRGB(src8, depth=<span class="number">8</span>)</span><br></pre></td></tr></table></figure>
 <p>预览 RGB24：</p>
 <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">res = mvf.Preview(src8)</span><br><span class="line">res.set_output()</span><br></pre></td></tr></table></figure>
+<p>字幕：</p>
+<p>VSFilter</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">res = core.vsf.TextSub(src16, file=<span class="string">&quot;subtitle.ass&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>or VSFilterMod if subber requires it:</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">res = core.vsfm.TextSubMod(src8, file=<span class="string">&quot;subtitle.ass&quot;</span>)</span><br></pre></td></tr></table></figure>
 <p>压制流程：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vspipe --y4m &quot;script.vpy&quot; - | x265 -D 10 --output &quot;output.hevc&quot; -</span><br></pre></td></tr></table></figure>
 <h2 id="参考">参考</h2>
