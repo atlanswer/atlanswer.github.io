@@ -11573,11 +11573,6 @@ figure.highlight .section {
 .fas {
   line-height: inherit;
 }
-.MathJax,
-.katex-display {
-  overflow-x: auto;
-  overflow-y: hidden;
-}
 .katex-display {
   margin-top: -0.5em !important;
 }
