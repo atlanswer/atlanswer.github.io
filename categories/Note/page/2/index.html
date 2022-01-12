@@ -19,7 +19,69 @@
 <h3 id="synopsis">Synopsis</h3>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git [--git-dir=&lt;path&gt;] [--work-tree=&lt;path&gt;] &lt;command&gt; [&lt;args&gt;]</span><br></pre></td></tr></table></figure></div><a class="article-more button is-small is-size-7" href="/2021/note/Git-Detached-Work-Tree/#more">Read more</a></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2021-10-09T16:00:00.000Z" title="10/9/2021, 4:00:00 PM">2021-10-10</time></span><span class="level-item">Updated&nbsp;<time dateTime="2021-12-26T16:00:00.000Z" title="12/26/2021, 4:00:00 PM">2021-12-27</time></span><span class="level-item"> Atlanswer </span><span class="level-item"><i class="fas fa-folder-open" style="margin-right:0.25rem"></i><a class="link-muted" href="/categories/Note/">Note</a></span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2021/note/GitLab-Config/">GitLab Configuration</a></h1><div class="content"><h3 id="installation">Installation</h3>
 <h4 id="docker-compose-file">Docker Compose File</h4>
-<script src="//gist.github.com/59b07d0b66fbc48d6264574611ed857f.js?file=docker-compose.yml"></script></div><a class="article-more button is-small is-size-7" href="/2021/note/GitLab-Config/#more">Read more</a></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2021-09-26T16:00:00.000Z" title="9/26/2021, 4:00:00 PM">2021-09-27</time></span><span class="level-item">Updated&nbsp;<time dateTime="2022-01-11T16:00:00.000Z" title="1/11/2022, 4:00:00 PM">2022-01-12</time></span><span class="level-item"> Atlanswer </span><span class="level-item"><i class="fas fa-folder-open" style="margin-right:0.25rem"></i><a class="link-muted" href="/categories/Note/">Note</a><span> / </span><a class="link-muted" href="/categories/Note/Methodology-of-Integrated-Circuit-Design/">Methodology of Integrated Circuit Design</a></span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2021/note/Methodology-of-Integrated-Circuit-Design/%E9%9B%86%E6%88%90%E7%94%B5%E8%B7%AF%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%B3%95%E5%AD%A6%E6%80%BB%E7%BB%93/">集成电路设计方法学总结</a></h1><div class="content"><p><strong>摩尔定律</strong>：由 Intel 公司创始人之一的 Gordon Moore 于 1960 年提出，1965 年发表，并于 1971 年得到第一次公开验证的一条关于集成电路制造的预言，其具体表述为：集成电路的功能随着时间呈指数增长，即每过 18 个月，微处理器处理能力增加一倍而价格不变（即集成度按 18 个月翻番）。</p>
+<script src="//gist.github.com/59b07d0b66fbc48d6264574611ed857f.js?file=docker-compose.yml"></script></div><a class="article-more button is-small is-size-7" href="/2021/note/GitLab-Config/#more">Read more</a></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2021-09-26T16:00:00.000Z" title="9/26/2021, 4:00:00 PM">2021-09-27</time></span><span class="level-item">Updated&nbsp;<time dateTime="2022-01-11T16:00:00.000Z" title="1/11/2022, 4:00:00 PM">2022-01-12</time></span><span class="level-item"> Atlanswer </span><span class="level-item"><i class="fas fa-folder-open" style="margin-right:0.25rem"></i><a class="link-muted" href="/categories/Note/">Note</a><span> / </span><a class="link-muted" href="/categories/Note/Methodology-of-Integrated-Circuit-Design/">Methodology of Integrated Circuit Design</a></span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2021/note/Methodology-of-Integrated-Circuit-Design/%E9%9B%86%E6%88%90%E7%94%B5%E8%B7%AF%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%B3%95%E5%AD%A6%E6%80%BB%E7%BB%93/">集成电路设计方法学总结</a></h1><div class="content"><h2 id="概念">概念</h2>
+<h3 id="集成电路的分类">集成电路的分类</h3>
+<h4 id="规模、集成度和工艺线宽">规模、集成度和工艺线宽</h4>
+<table>
+<thead>
+<tr>
+<th>规模</th>
+<th>SSI</th>
+<th>MSI</th>
+<th>LSI</th>
+<th>VLSI</th>
+<th>ULSI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>集成度</td>
+<td>几十~数百</td>
+<td>成千~上万</td>
+<td>几十万</td>
+<td>几百~上千万</td>
+<td>几千万</td>
+</tr>
+<tr>
+<td>工艺线宽（μm）</td>
+<td>5~10 (10)</td>
+<td>1~5 (2)</td>
+<td>0.5~1 (0.8)</td>
+<td>0.1~0.5 (0.25)</td>
+<td>&lt; 0.1 (0.09)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="设计方法论">设计方法论</h4>
+<ul>
+<li>手工设计（20 世纪 50~60 年代）
+<ul>
+<li>SSI：直接手工制版图</li>
+</ul>
+</li>
+<li>计算机辅助设计 CAD（20 世纪 70~80 年代）
+<ul>
+<li>MSI 和 LSI：电路图到版图设计</li>
+</ul>
+</li>
+<li>电子设计自动化 EDA（20 世纪 90 年代至今）
+<ul>
+<li>LSI 和 VLSI：行为描述语言 HDL 到版图设计</li>
+</ul>
+</li>
+<li>面向 VDSM + SoC 的新一代 CAD 系统
+<ul>
+<li>VLSI、ULSI 和 SoC：软硬协同设计</li>
+</ul>
+</li>
+</ul>
+<h4 id="ic-分类">IC 分类</h4>
+<ul>
+<li>标准 IC（通用 IC）</li>
+<li>半定制 IC</li>
+<li>专用 IC</li>
+</ul>
+<p><strong>摩尔定律</strong>：由 Intel 公司创始人之一的 Gordon Moore 于 1960 年提出，1965 年发表，并于 1971 年得到第一次公开验证的一条关于集成电路制造的预言，其具体表述为：集成电路的功能随着时间呈指数增长，即每过 18 个月，微处理器处理能力增加一倍而价格不变（即集成度按 18 个月翻番）。</p>
 <ul>
 <li><strong>导通集合 CON</strong>：使某位输出为 1 的输入序列的集合为该输出位的导通集合</li>
 <li><strong>断开集合 COFF</strong>：使某位输出为 0 的输入序列的集合为该输出位的断开集合</li>
