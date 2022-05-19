@@ -1,0 +1,112 @@
+<hr />
+<h2 id="title-an-efficient-surrogate-assisted-particle-swarm-optimization-for-antennasynthesisauthor-atlanswertoc-truedate-2021-10-31-17-55-38updated-2021-11-09categories-notetags">title: &gt;-
+An Efficient Surrogate Assisted Particle Swarm Optimization for Antenna
+Synthesis
+author: Atlanswer
+toc: true
+date: 2021-10-31 17:55:38
+updated: 2021-11-09
+categories: Note
+tags:</h2>
+<blockquote>
+<p>The content was summarized from	K. Fu, X. Cai, B. Yuan, Y. Yang, and X. Yao, &quot;An Efficient Surrogate Assisted Particle Swarm Optimization for Antenna Synthesis,&quot; <em>IEEE Antennas and Propagation Magazine</em>, 2021.</p>
+</blockquote>
+<h2 id="motivation">Motivation<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup></h2>
+<h3 id="problem-formulation-of-antenna-optimization">Problem Formulation of Antenna Optimization</h3>
+<p>The common EM optimization for the microwave component design is <em>geometry optimization</em>, adjusting the <strong>geometric parameters</strong> of a given topological antenna structure inside the range of desired operating frequencies to achieve optimal performance:</p>
+<p>To minimize \(f(\bm{x})\), given that \(g_i(\bm{x})\leqslant0,i=1,2,\ldots,k,\bm{x}\in[\bm{lb}, \bm{ub}]^D\)</p>
+<!-- more -->
+<p>where \(\bm{x}=[x_1, x_2, \ldots, x_D]\) represents the geometrical variables of a fixed antenna structure, \(D\) is the problem dimension, \(k\) is the number od constrains. \(\bm{lb}\) and \(\bm{ub}\) are the lower and upper bounds of the design space. \(f(\bm{x})\) and \(g_i(\bm{x})\) represent the major performance metric and subordinate performance metrics respectively.</p>
+<p>In EM geometry optimization, the geometrical change of the EM structure is defined completely by the changes in the values of a given set of geometrical parameters.</p>
+<p>The second type of EM optimization is EM <em>shape optimization</em>, where the EM structure is optimized by modifying the geometrical boundary of objects in the design space. EM shape optimization allows optimal EM structures with unrestricted shapes in the design space. In EM shape optimization, the topology of the EM structure, e.g., the number of holes in the design space, is fixed in the optimization process.</p>
+<p>The third type of EM optimization is EM <em>topology optimization</em>. It is a numerical optimization method to find the optimal shape and topology of the EM structure by repetitively adding or eliminating geometrical/material elements within the design space. EM topology optimization can search for the optimal EM structure without constraints of shape and topology in the design space<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>.</p>
+<h3 id="requirements">Requirements</h3>
+<ol>
+<li><strong>Optimization</strong>: to find to optimum design parameters;</li>
+<li><strong>Sensitivity Analysis</strong>: to explore the design performance when parameters are varying.</li>
+</ol>
+<h2 id="solution">Solution</h2>
+<h3 id="evolutionary-algorithm-ea">Evolutionary Algorithm (EA)</h3>
+<p><strong>Evolutionary algorithm</strong> is a generic population-based metaheuristic optimization algorithm, ideally making no assumption about the underlying fitness landscape. This is a heuristic solution because we can never prove the real global optimal solution can be found and it is usually not. However, we often find that the solution found by PSO is quite close to the global optimal.</p>
+<p>{% asset_img fitness_landscape.gif '&quot;Visualized fitness landscapes (static)&quot; &quot;Fig. 1. Visualized fitness landscapes (static)<sup class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup>&quot;' %}
+{% asset_img fitness_landscape_dynamic.gif '&quot;Visualized fitness landscapes (dynamic)&quot; &quot;Fig. 2. Visualized fitness landscape (dynamic)<sup class="footnote-ref"><a href="#fn3" id="fnref3:1">[3:1]</a></sup>&quot;' %}</p>
+<h3 id="steps">Steps:</h3>
+<ol>
+<li>Randomly generate the initial population of individuals;</li>
+<li>Repeat until termination:
+<ol>
+<li>Evaluate the fitness of each individual in the population;</li>
+<li>Select parents: the fittest individuals;</li>
+<li>Breed new individuals with crossover and mutation;</li>
+<li>Replace the least-fit individuals of the population with new individuals.</li>
+</ol>
+</li>
+</ol>
+<h3 id="types">Types:</h3>
+<ul>
+<li><strong>Genetic algorithm (GA)</strong>: One seeks the solution of a problem in the form of strings of numbers, by applying operators such as recombination and mutation;</li>
+<li><strong>Differential evolution (DE)</strong>: Based on vector differences and is therefore primarily suited for numerical optimization problems.</li>
+<li><strong>Particle swarm optimization (PSO)</strong>: Only the objective function is needed and it is not dependent on the gradient or any differential form of the objective.</li>
+</ul>
+<h3 id="limitations">Limitations</h3>
+<p>The computational budget of EA-based antenna synthesis is usually high because of various exact function evaluations are required at each iteration and hundreds of iterations are needed for a global optimal solution.</p>
+<h3 id="surrogate-assisted-evolutionary-algorithms-saeas">Surrogate Assisted Evolutionary Algorithms (SAEAs)</h3>
+<h4 id="surrogate-modeling">Surrogate Modeling</h4>
+<p>{% asset_img surrogate_modeling.png Figure 3: Using a surrogate model to replace the expensive computer simulations is one way to improve the analysis efficiency<sup class="footnote-ref"><a href="#fn1" id="fnref1:1">[1:1]</a></sup>. %}</p>
+<p>Accurately approximate the simulation output by constructing statistical model (or surrogate model).</p>
+<h5 id="characteristics">Characteristics</h5>
+<p>Surrogate modeling is a special case of supervised machine learning applied in the field of engineering design. Its training data is obtained via probing the simulation outputs at several intelligently selected locations in the design parameter space. At each of these locations, a full simulation is conducted to calculate the corresponding simulation output.<sup class="footnote-ref"><a href="#fn4" id="fnref4">[4]</a></sup></p>
+<h5 id="steps-v2">Steps<sup class="footnote-ref"><a href="#fn5" id="fnref5">[5]</a></sup></h5>
+<ol>
+<li><strong>Sampling</strong>: generating initial training data by selecting samples of the design parameters from their parameter space, preferably to have samples that are spread evenly across the parameter space.</li>
+<li><strong>Output evaluations</strong>: run the simulations for each sample, resulting the initial training dataset;</li>
+<li><strong>Construct the surrogate model</strong>: usually by utilizing established machine learning algorithms;</li>
+<li><strong>Active learning</strong>: enrich the training dataset as the training progresses by crafting learning functions to allocate samples to regions where the model is thought to be inaccurate or uncertain, or to regions of interests.</li>
+<li><strong>Enrich training dataset</strong>: Perform new simulations runs to retrain the model.</li>
+</ol>
+<h5 id="models">Models</h5>
+<p>{% asset_img surrogate_model.png '&quot;Surrogate model&quot; &quot;Fig. 4. The procedure of online data-driven surrogate model for antenna optimization.&quot;' %}</p>
+<p>Online, data-driven mode 👆.</p>
+<ul>
+<li>Radial basis function (RBF) network:</li>
+</ul>
+<p>RBF networks are selected as the principal surrogate models for accurately predicting the responses of untried antenna structures, because RBF has been proved to be remarkable accuracy for high-dimensional problems.</p>
+<p>The metamodels are initially trained based on a dataset consisting of \(n\) distinct vectors, \(\bm{x}_1\), \(\bm{x}_2\), \(\ldots\), \(\bm{x}_n\in\Reals^D\), and each vector \(\bm{x}_i\) represents a solution of the geometrical parameters for the given antenna structure, \(f(\bm{x}_i)\in\Reals\) is the corresponding performance metric, which is computed by exact EM simulations.</p>
+<p>The predicted performance metric of an undetermined vector \(\bm{x}_{n+1}\) can be approximated by</p>
+<p>\[
+\hat{f}(\bm{x}_ {n+1})=\sum^n_{i=1}\lambda_i\Phi_i\left(||\bm{x} _{n+1}-\bm{x} _i||\right)+p(\bm{x} _{n+1})
+\tag{1}
+\]</p>
+<p>where \(\Phi_i\) is \(i\)th basis function, and \(||\cdot||\) indicates the Euclidean distance, and \(p(\bm{x})=\bm{b}^T\bm{x}+a\) is a linear polynomial function.</p>
+<ul>
+<li>Simplified Kriging model</li>
+</ul>
+<h3 id="particle-swarm-optimization-pso">Particle Swarm Optimization (PSO)</h3>
+<p>Particle Swarm Optimization was proposed by Kennedy and Eberhart in 1995<sup class="footnote-ref"><a href="#fn6" id="fnref6">[6]</a></sup>. As mentioned in the original paper, sociobiologists believe a school of fish or a flock of birds that moves in a group &quot;can profit from the experience of all other members&quot;. While we can simulate the movement of a flock of birds, we can also imagine each bird is to help us find the optimal solution in a high-dimensional solution space and the best solution found by the flock is the best solution in the space<sup class="footnote-ref"><a href="#fn7" id="fnref7">[7]</a></sup>.</p>
+<p>Assume we have \(P\) particles and the position of particle \(i\) at iteration \(t\) is \(X^i(t)\). Besides the position, we have the a velocity for each particle \(V^i(t)\). At the next iteration, the position of each particle would be updated as</p>
+<p>\[X^i(t+1)=X^i(t)+V^i(t+1)\tag{2}\]</p>
+<p>and the velocities are updated by the rule</p>
+<p>\[V^i(t+1)=wV^i(t)+c_1r_1(p^i(t)-X^i(t))+c_2r_2(p^g(t)-X^i(t))\tag{3}\]</p>
+<p>where \(c_1\) and \(c_2\) are acceleration coefficients, \(r_1\) and \(r_2\) are random values in the range of \([0,1]\), \(p^g(t)\) represents the global best position of the swarm and \(p^i(t)\) represents the historical best position of particle \(i\) found until iteration \(t\). The iteration terminates if the maximum number of iterations is reached, \(p^g(t)\) and \(p^i(t)\) are updated according the exact function evaluations for all the particles. The result is the global best position \(p^g\), revealing the optimal parameters of the given antenna structure.</p>
+<h4 id="implementation">Implementation</h4>
+<p>{% asset_img pso9.gif '&quot;Animation of particle movements&quot; &quot;PSO demonstration<sup class="footnote-ref"><a href="#fn7" id="fnref7:1">[7:1]</a></sup>&quot;' %}</p>
+<h2 id="details">Details</h2>
+<hr class="footnotes-sep" />
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p><a href="https://towardsdatascience.com/an-introduction-to-surrogate-modeling-part-i-fundamentals-84697ce4d241">An introduction to Surrogate modeling.</a> <a href="#fnref1" class="footnote-backref">↩︎</a> <a href="#fnref1:1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>J. Jin, F. Feng, J. Zhang, J. Ma, and Q.-J. Zhang, &quot;Efficient EM Topology Optimization Incorporating Advanced Matrix Padé Via Lanczos and Genetic Algorithm for Microwave Design,&quot; IEEE Transactions on Microwave Theory and Techniques, vol. 69, no. 8, pp. 3645-3666, 2021-08-01 2021, doi: 10.1109/tmtt.2021.3088870. <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn3" class="footnote-item"><p><a href="https://www.youtube.com/watch?v=4pdiAneMMhU">Using fitness landscapes to visualize evolution in action</a> <a href="#fnref3" class="footnote-backref">↩︎</a> <a href="#fnref3:1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn4" class="footnote-item"><p><a href="https://christophm.github.io/interpretable-ml-book">Interpretable Machine Learning: A Guide for Making Black Box Models Explainable.</a> <a href="#fnref4" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn5" class="footnote-item"><p>Alexander I. J. Forrester, András Sóbester, Andy J. Keane, Engineering Design via Surrogate Modelling: A Practical Guide, 2008. <a href="#fnref5" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn6" class="footnote-item"><p>J. Kennedy and R. Eberhart, &quot;Particle swarm optimization,&quot; Proceedings of ICNN'95 - International Conference on Neural Networks, 1995, pp. 1942-1948 vol.4, doi: 10.1109/ICNN.1995.488968. <a href="#fnref6" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn7" class="footnote-item"><p><a href="https://machinelearningmastery.com/a-gentle-introduction-to-particle-swarm-optimization/">A Gentle Introduction to Particle Swarm Optimization</a> <a href="#fnref7" class="footnote-backref">↩︎</a> <a href="#fnref7:1" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>

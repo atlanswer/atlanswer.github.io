@@ -1,0 +1,136 @@
+<hr />
+<p>title: HFSS 矩形波导仿真
+author: Atlanswer
+date: 2020-09-05
+updated: 2020-09-06
+categories: Note
+tags:</p>
+<ul>
+<li>wave guide</li>
+<li>HFSS
+toc: true
+cover: /2020/note/HFSS/HFSS-矩形波导仿真/radiation-animation.gif</li>
+</ul>
+<hr />
+<p>在 Ansys <a href="https://www.ansys.com/Products/Electronics/ANSYS-HFSS">HFSS</a> (High Frequency Structure Simulator) 中可使用有限元法求解电磁场，现在我们借助 HFSS 15 仿真矩形金属波导中的场分布。</p>
+<h3 id="矩形波导中的场">矩形波导中的场</h3>
+<p>矩形金属波导只有一个导体，电磁波在中间空腔内传播。由于金属波导没有自由电荷和传导电流，无法传输 TEM 波。一般情况下，只需要 \(E_z\) 和 \(H_z\) 中一个为零即可满足边界条件，因此只能存在 TE 波和 TM 波。</p>
+<p>建立如下的矩形波导模型。
+{% asset_img wave-guide-model.jpg 矩形波导模型 %}
+设矩形波导的宽边长度为 \(a\)，窄边长度为 \(b\)。电磁波沿 \(z\) 方向传播。</p>
+<!-- more -->
+<h4 id="te-波">TE 波</h4>
+<p>对 TE 波，\(E_z=0\) 而 \(H_z=H_{oz}(x,y)e^{-j\beta z}\neq 0\)，只有纵向磁场，满足边界条件
+\[
+\left.\frac{\partial H_z}{\partial \mathbf{n}}\right|_S=0
+\tag{2-1-22}
+\]
+其中 \(S\) 表示波导周界，\(\mathbf{n}\) 是边界法向单位矢量。</p>
+<p>矩形波导 TE 波纵向磁场的基本解为
+\[
+H_z=H_{mn}\cos(\frac{m\pi}{a}x)\cos(\frac{n\pi}{b}y)e^{-j\beta z}
+\tag{2-2-8}
+\]</p>
+<p>由式 \((2-2-10)\) 可得矩形波导 \(\text{TE} _ \text{mn}\) 模的截止波数为
+\[
+k^2 _ \text{cmn}=\left(\frac{m\pi}{a}\right)^2+\left(\frac{n\pi}{b}\right)^2
+\tag{2-2-15}
+\]
+对应截止波长
+\[
+\lambda _ {\text{cTE} _ {\text{mn}}}=\frac{2\pi}{k _ \text{cmn}}=\lambda _ \text{c}
+\tag{2-2-15}
+\]
+只有当工作波长 \(\lambda\) 小于某个模式的截止波长 \(\lambda _ \text{c}\) 时，这个模式才可在波导中传输。主模 \(\text{TE} _ \text{10}\) 模是最常用的模式，下面分析该模式的场分布。</p>
+<h3 id="hfss-仿真">HFSS 仿真</h3>
+<p>定义矩形波导尺寸，\(a=0.03\text{m}\)，\(b=0.02\text{m}\)。
+{% asset_img dimensions.jpg 波导尺寸 %}
+金属管壁是理想导体，其表面是电场等势面，设置 <code>Perfect E</code> 边界条件。
+{% asset_img boundary-e.jpg 管壁边界条件 %}
+在 \(z=0\) 处设置激励 <code>Wave Port</code> 作为电磁波输入口。\(\text{TE} _ \text{10}\) 模已经是矩形波导的最低次模，只需设置仿真一个模式。
+{% asset_img excitation.jpg 激励 %}</p>
+<p>各模式的截止波长和截止频率如下</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">模式</th>
+<th style="text-align:center">截止波长</th>
+<th style="text-align:center">截止频率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">\(\text{TE} _ \text{10}\)</td>
+<td style="text-align:center">0.06m</td>
+<td style="text-align:center">5GHz</td>
+</tr>
+<tr>
+<td style="text-align:center">\(\text{TE} _ \text{01}\)</td>
+<td style="text-align:center">0.04m</td>
+<td style="text-align:center">7.5GHz</td>
+</tr>
+<tr>
+<td style="text-align:center">\(\text{TE} _ \text{11}\)</td>
+<td style="text-align:center">0.033m</td>
+<td style="text-align:center">9GHz</td>
+</tr>
+</tbody>
+</table>
+<p>设置求解频率为 \(f=10\text{GHz}\)，以上各个模式都能够传播。这里只显示最低模式。</p>
+<h4 id="行波状态">行波状态</h4>
+<p>设置波导终端边界条件为辐射面，电磁波离开辐射面后不再返回，即终端匹配。
+{% asset_img terminal-r.jpg 终端辐射 %}
+将 \(m=1\)，\(n=0\)，\(k_\text{c}=\pi/a\) 代入 \((2-2-10)\) 可得场强与 \(y\) 无关。在没有反射的情况下，电磁波沿 \(z\) 方向按行波传播；沿 \(x\) 方向，\(E_y\)、\(H_x\) 最大值在同截面出现，与 \(H_z\) 有 90° 的相位差，电磁波沿横向呈驻波分布。
+{% asset_img te10-field.jpg TE10模场分布 %}</p>
+<p>由于沿 \(y\) 方向场强相同，只需观察表面场，如下为电场幅值分布。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">0°</th>
+<th style="text-align:center">90°</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">{% asset_img r-0-phase.jpg 0°相位 %}</td>
+<td style="text-align:center">{% asset_img r-90-phase.jpg 90°相位%}</td>
+</tr>
+</tbody>
+</table>
+<p>可见仿真结果符合理论预期。相邻的电场幅值点一个是最大值一个是最小值，第一个幅值点与第三个幅值点的距离为波导波长：
+\[
+\lambda _ \text{g}=\frac{2\pi}{\beta}=\frac{\lambda}{\sqrt{1-(\lambda/2a)^2}}=0.035\text{m}
+\tag{2-2-24}
+\]</p>
+<h4 id="驻波状态">驻波状态</h4>
+<p>终端边界条件为 <code>Perfect E</code> 时相当于终端短路，电场必为零。电磁波全部反射形成驻波，终端为电压波节点。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">0°</th>
+<th style="text-align:center">90°</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">{% asset_img e-0-phase.jpg 0°相位 %}</td>
+<td style="text-align:center">{% asset_img e-90-phase.jpg 90°相位%}</td>
+</tr>
+</tbody>
+</table>
+<p>终端边界条件为 <code>Perfect H</code> 时相当于终端开路，电磁波也呈纯驻波分布。终端为电压波腹点。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">0°</th>
+<th style="text-align:center">90°</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">{% asset_img h-0-phase.jpg 0°相位 %}</td>
+<td style="text-align:center">{% asset_img h-90-phase.jpg 90°相位%}</td>
+</tr>
+</tbody>
+</table>
+<p>波腹点与波节点之间距离为 \(\lambda _ \text{g}/4\)，因为反射波与入射波叠加，因此驻波状态电场幅值明显高于行波状态，但由于该模型中反射波与入射波存在相位差，因此幅值小于行波幅值的 2 倍。</p>

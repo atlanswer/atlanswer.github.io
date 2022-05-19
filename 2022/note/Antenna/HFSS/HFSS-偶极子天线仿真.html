@@ -1,0 +1,51 @@
+<hr />
+<p>title: HFSS 偶极子天线仿真
+author: Atlanswer
+date: 2020-09-11
+updated: 2020-09-13
+categories: Note
+tags:</p>
+<ul>
+<li>antenna</li>
+<li>HFSS
+toc: true
+cover: /2020/note/HFSS/HFSS-偶极子天线仿真/optimetrics-h-r.jpg</li>
+</ul>
+<hr />
+<h2 id="建模">建模</h2>
+<p>现在我们仿真偶极子天线。其结构可建模为两个沿 y 轴放置的金属圆柱体，两者之间连接馈电接口。</p>
+<p>{% asset_img dipole-antenna.jpg 偶极子天线 %}</p>
+<p>设置仿真频率为 2.4 GHz，添加 50 点频率扫描，范围是 2 GHz ~ 3 GHz。</p>
+<!-- more -->
+<h2 id="分析">分析</h2>
+<h3 id="方向图">方向图</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">铅锤面方向图</th>
+<th style="text-align:center">水平面方向图</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">{% asset_img radiation-pattern-theta.jpg 铅锤面方向图 %}</td>
+<td style="text-align:center">{% asset_img radiation-pattern-phi.jpg 水平面方向图 %}</td>
+</tr>
+</tbody>
+</table>
+<p>方向图说明了偶极子天线的特性：其增益在位于中心垂直于天线指向的平面上最大，在 \(\varphi\) 各方向上增益相同。</p>
+<h3 id="反射系数">反射系数</h3>
+<p>以馈电接口处的反射系数为匹配效果的标准，天线的长度和半径是优化设计的目标。</p>
+<p>\(S\) 参数中，设端口 2 匹配时，端口 1 的归一化输入电压为 \(a_1\)，反射波电压为 \(b_1\)，输入反射系数定义为
+\[
+S_{11}=\frac{b_1}{a_1}
+\]</p>
+<p>馈电接口处反射系数越低则传递到天线的能量越多。认为 \(S_{11}\) 小于 -10 dB 时接口于天线匹配。比较不同天线长度和半径来寻找最佳匹配结果。</p>
+<h4 id="天线半径对反射系数-10db-带宽的影响">天线半径对反射系数 -10dB 带宽的影响</h4>
+<p>{% asset_img optimetrics-r.jpg 参数优化：半径 %}</p>
+<p>天线半径的观测范围是 0.5 mm ~ 1.5 mm。对不同的天线半径，上限频率大致相同而下限频率差异较大。在观测范围内天线半径越大则 -10 dB 带宽越大，谐振频率略有下降。</p>
+<h4 id="天线长度对谐振频率的影响">天线长度对谐振频率的影响</h4>
+<p>{% asset_img optimetrics-h.jpg 参数优化：长度 %}</p>
+<p>天线长度的观测范围是 22 mm ~ 32 mm。观察反射系数曲线最低点即谐振点。在观测范围内谐振频率随天线长度增加而降低，反射系数增大。</p>
+<p>考虑不同长度和半径的 9 种组合：</p>
+<p>{% asset_img optimetrics-h-r.jpg 参数优化：长度和半径 %}</p>

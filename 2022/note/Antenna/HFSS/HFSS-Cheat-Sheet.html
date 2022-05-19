@@ -1,0 +1,56 @@
+<hr />
+<p>title: HFSS Cheat Sheet
+author: Atlanswer
+toc: true
+date: 2021-12-12
+updated: 2021-12-12
+categories: Note
+tags:</p>
+<ul>
+<li>HFSS</li>
+</ul>
+<hr />
+<p>HFSS is a full-wave electromagnetic (EM) field simulator for arbitrary 3D volumetric passive device modeling. HFSS employs the finite element method (FEM) for EM simulation.</p>
+<h3 id="view">View</h3>
+<ul>
+<li><code>Ctrl + D</code> - Fit all</li>
+<li><code>Ctrl + Shift + D</code> - Fit selection (assign this in Keyboard Shortcuts &gt; View &gt; Fit Selection)</li>
+<li><code>Mouse Middle</code> or <code>Alt + Drag</code> on object - Rotate in 3D</li>
+<li><code>Mouse Middle</code> or <code>Alt + Drag</code> close to the edge of the view window - Rotate camera</li>
+<li><code>Shift + Drag</code> - Pan</li>
+<li><code>Alt + Shift + Drag</code> - Dynamic zoom</li>
+<li>Hold <code>Alt</code> and double click <code>Mouse Primary</code> on locations shown below to rotate to predefined views:
+{% asset_img predefined-views.jpg '&quot;Predefined Views&quot;&quot;Predefined Views&quot;' %}</li>
+<li><code>Ctrl + A</code> - Select all</li>
+<li><code>Ctrl + Shift + A</code> - Deselect all</li>
+<li><code>F6</code> / <code>F7</code> - Wire frame / Smooth shaded</li>
+</ul>
+<!-- more -->
+<h3 id="modeller">Modeller</h3>
+<ul>
+<li><code>B</code> - Select face/object behind current selection</li>
+<li><code>F</code> - Face select mode</li>
+<li><code>O</code> - Object select mode</li>
+<li><code>E</code> - Edge select mode</li>
+<li><code>V</code> - Vertices select mode</li>
+</ul>
+<h3 id="general">General</h3>
+<ul>
+<li><code>Ctrl + 0</code> - Cascade windows</li>
+<li><code>Ctrl + 1</code> - Tile windows horizontally</li>
+<li><code>Ctrl + 2</code> - Tile windows vertically</li>
+</ul>
+<h3 id="hfss-design-process">HFSS Design Process</h3>
+<p>{% asset_img process.jpg '&quot;HFSS Design Process&quot;&quot;HFSS Design Process&quot;' %}</p>
+<h4 id="solution-type">Solution Type</h4>
+<ol>
+<li><strong>Driven Model</strong>: calculates the model-based S-parameters. THe S-matrix solutions will be expressed in terms of the incident and reflected powers of waveguide modes.</li>
+<li><strong>Driven Terminal</strong>: calculates the terminal-based S-parameters of multi-conductor transmission line ports. The S-matrix solutions will be expressed in terms of terminal voltages and currents.</li>
+<li><strong>Eigenmode</strong>: calculate the eigenmodes, or resonances, of a structure. The Eigenmode solver finds the resonant frequencies od the structure and the fields at those resonant frequencies.</li>
+</ol>
+<h5 id="convergence">Convergence</h5>
+<ol>
+<li><strong>Driven Model</strong>: Delta S for model S-parameters.</li>
+<li><strong>Driven Terminal</strong>: Delta S for the single-ended or differential nodal S-parameters.</li>
+<li><strong>Eigenmode</strong>: Delta F.</li>
+</ol>

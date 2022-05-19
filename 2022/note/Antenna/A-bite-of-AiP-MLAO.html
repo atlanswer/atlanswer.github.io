@@ -1,0 +1,105 @@
+<hr />
+<p>title: A bite of AiP &amp; MLAO
+author: Atlanswer
+toc: true
+date: 2021-10-17 11:00:56
+updated: 2021-10-17 11:00:56
+categories:</p>
+<ul>
+<li>Note
+tags:</li>
+</ul>
+<hr />
+<h2 id="antenna-in-package-aip">Antenna-in-Package (AiP)</h2>
+<div class="message is-link">
+  <div class="message-body">
+    Overview reference: <em>Zhang, Y. and J. Mao (2019). <i>"An Overview of the Development of Antenna-in-Package Technology for Highly Integrated Wireless Devices."</i> Proceedings of the IEEE 107(11): 2265-2280.</em>
+  </div>
+</div>
+<h3 id="motivations">Motivations</h3>
+<ol>
+<li><strong>Next generations of wireless communications</strong>: mmWave frequencies and multiple antennas for beamforming and tracking;</li>
+<li><strong>Automotive radar</strong>: mmWave with a wide bandwidth allows for high spatial resolution for collision avoidance and vision enhancement in self-driving<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>.</li>
+</ol>
+<!-- more -->
+<h3 id="development-of-integrated-antennas">Development of Integrated Antennas</h3>
+<h4 id="prerequisite-single-die-wireless-transceiver">Prerequisite: Single-die wireless transceiver</h4>
+<p>DSP and CMOS technologies enabled the full integration of an entire wireless transceiver into a single die.</p>
+<p>{% asset_img discrete.jpg &quot;Figure 1: Single-die wireless transceivers and chip antennas<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>&quot; %}</p>
+<p>Chip antenna technology was developed to provide a compatible antenna solution, while the interconnections between the transceiver and the chip antenna introduce a transmission loss, causing serious problems for higher frequencies.</p>
+<h4 id="integration-solutions-aoc-vs-aip">Integration solutions: AoC vs AiP</h4>
+<p>Integrated antennas were attempted.</p>
+<p>{% asset_img soc_vs_sip.jpg &quot;Figure 2: Comparison between SoC and SiP<sup class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup>&quot; %}</p>
+<ol>
+<li><strong>Antenna-on-Chip</strong> (AoC) realizes an antenna or antennas with the transceiver in a die on the same wafer, suitable for terahertz applications.</li>
+<li><strong>Antenna-in-Package</strong> (Aip) implements an antenna or antennas with the transceiver die into a standard SMT package.</li>
+</ol>
+<p>{% asset_img 5g_cellular.jpg &quot;Figure 3: AiP example: 28 GHz 5G base station&quot; %}</p>
+<h3 id="aip-design-considerations">AiP Design Considerations</h3>
+<p>Fundamental antenna characteristics as well as package-specific characteristics:</p>
+<ol>
+<li>Wavelength, bandwidth &amp; dimension considerations;</li>
+<li>Basic antenna types: dipole, loop, slot, etc;</li>
+<li>AiP arrangement: Patch, Yagi-Uda, Grid array, etc;</li>
+<li>Custom solution specially for developed for AiP: horn antenna by Tajima <em>et al</em>.</li>
+</ol>
+<blockquote>
+<p>The basic antennas were used for the proof of the concept, the unusual antennas for specific designs, and the popular antennas for general radios and radars<sup class="footnote-ref"><a href="#fn1" id="fnref1:1">[1:1]</a></sup>.</p>
+</blockquote>
+<ol>
+<li>Parasitic effects: leaded and leadless;</li>
+<li>Package types: BGA, QFN, etc;</li>
+<li>Interconnection pad configurations: ground-signal-ground (GSG) and GSG-signal-ground (GSGSG);</li>
+<li>Trace: coplanar waveguide (CPW), strip, and microstrip lines;</li>
+<li>Fabrication technologies: low temperature co-fired ceramic (LTCC), high density interconnection (HDI), fan-out wafer level packaging (FOWLP), etc.</li>
+</ol>
+<h2 id="machine-learning-assisted-optimization-mlao">Machine Learning Assisted Optimization (MLAO)</h2>
+<div class="message is-link">
+  <div class="message-body">
+    Overview reference: <em>Wuf, Q., et al. (2020). <i>"Machine-learning-assisted optimization and its application to antenna designs: Opportunities and challenges."</i> China Communications 17(4): 152-164.</em>
+  </div>
+</div>
+<h3 id="motivation">Motivation</h3>
+<ol>
+<li>Full-wave electromagnetic simulation provides great accuracy while being resource demanding and time consuming;</li>
+<li>Modern wireless communication systems gave higher antenna performance requirements;</li>
+<li>MLAO has been introduced to accelerate the design process of antennas and arrays<sup class="footnote-ref"><a href="#fn4" id="fnref4">[4]</a></sup>.</li>
+</ol>
+<blockquote>
+<p>In modern wireless communication systems, the antenna is designed and considered not as a separate component but as a system-level task that must integrate with other components, structures, or even appearance designs for commercial devices<sup class="footnote-ref"><a href="#fn4" id="fnref4:1">[4:1]</a></sup>.</p>
+</blockquote>
+<h3 id="available-methods">Available methods</h3>
+<p>Irregular geometries leads to analytically incalculable solutions.</p>
+<p>Numerical methods were introduced to analyze complex configurations:</p>
+<ol>
+<li>Integral equation solvers: discrete dipole approximation, method of moments element method, fast multipole method, plane wave time-domain, partial element equivalent circuit method, etc;</li>
+<li>Differential equation solvers: finite-difference time-domain method, discontinuous time-domain method, multiresolution time-domain method, finite element method, finite integration technique, etc;</li>
+<li>Other methods: eigenmode expansion, physical optics, uniform theory of diffraction.</li>
+</ol>
+<p>Machine learning approaches:</p>
+<p>Artificial neural networks, support vector machine, gaussian process regression, etc.</p>
+<h3 id="optimization-considerations">Optimization considerations</h3>
+<p>Multi-objective, variable-fidelity, parallel computing and sensitivity analysis.</p>
+<h3 id="opportunities">Opportunities</h3>
+<p>Hybrid surrogate models: data-driven and physical-driven methods.</p>
+<div style="background-color:black;color:white;text-decoration:none;padding:4px 6px;font-size:12px;line-height:1.2;display:inline-block;border-radius:3px">
+  <span style="display:inline-block;padding:2px 3px">
+    <i class="fas fa-pen-square"></i>
+  </span>
+  <span style="display:inline-block;padding:2px 3px">
+    Work in Progress
+  </span>
+</div>
+<hr class="footnotes-sep" />
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>Zhang, Y. and J. Mao (2019). &quot;An Overview of the Development of Antenna-in-Package Technology for Highly Integrated Wireless Devices.&quot; Proceedings of the IEEE 107(11): 2265-2280. <a href="#fnref1" class="footnote-backref">↩︎</a> <a href="#fnref1:1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>Zhang, Y. (2019). &quot;Antenna-in-Package Technology: Its Early Development [Historical Corner].&quot; IEEE Antennas and Propagation Magazine 61(3): 111-118. <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn3" class="footnote-item"><p><a href="https://techpp.com/2019/03/18/what-is-sip-vs-soc/">Technology Personalized</a> <a href="#fnref3" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn4" class="footnote-item"><p>Wu, Q., et al. (2020). &quot;Machine-learning-assisted optimization and its application to antenna designs: Opportunities and challenges.&quot; China Communications 17(4): 152-164. <a href="#fnref4" class="footnote-backref">↩︎</a> <a href="#fnref4:1" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>

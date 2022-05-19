@@ -1,0 +1,62 @@
+<hr />
+<p>title: HFSS Scripting
+author: Atlanswer
+toc: true
+date: 2021-11-21 18:35:29
+updated: 2021-12-06
+categories: Note
+tags:</p>
+<ul>
+<li>HFSS</li>
+</ul>
+<hr />
+<h2 id="introduction-to-desktop-scripting">Introduction to Desktop Scripting</h2>
+<p>{% blockquote HFSS Scripting Guide %}
+Using scripts is a fast, effective way to accomplish tasks you want to repeat. When you execute a script, the commands in the script are performed.</p>
+<p>You can write a script using any text editor or you can record a script from within the HFSS interface. After recording the script from within HFSS, you can then modify it if necessary using a text editor.
+{% endblockquote %}</p>
+<h3 id="recording-in-hfss">Recording in HFSS</h3>
+<p>{% asset_img entry.jpg '&quot;Entry&quot;&quot;Scripting Entry&quot;' %}</p>
+<!-- more -->
+<p>HFSS offers several scripting methods:</p>
+<ul>
+<li>Visual Basic Scripting Edition: Based on Microsoft Visual Basic programming language</li>
+<li>JavaScript: Interfaces with HFSS via Microsoft COM methods</li>
+<li>IronPython: A Python implementation written in C# targeting Microsoft's .NET framework, abandoned by Microsoft in late 2010</li>
+</ul>
+<p>{% asset_img selection.jpg '&quot;Selection&quot;&quot;Scripting Methods&quot;' %}</p>
+<h3 id="automated-simulation-process">Automated Simulation Process</h3>
+<p>HFSS command-line syntax:</p>
+<pre><code class="language-shell">hfss &lt;option&gt; &lt;runcommand&gt; &lt;project name/script name&gt;
+</code></pre>
+<pre><code class="language-shell">ansysedt ...
+</code></pre>
+<p>Example:</p>
+<pre><code class="language-py">from pathlib import path
+import os
+
+hfss_exe = Path(r'path_to_hfss_exe')
+assert hfss_exe.exists()
+hfss_path = str(hfss_exe)
+option = '-RunScriptAndExit'
+script = Path(r'path_to_script')
+assert script.exists()
+script_path = str(script)
+
+try:
+    os.system(''.join([hfss_path, option, script_path]))
+except:
+    ...
+</code></pre>
+<h2 id="ironpython-implementation">IronPython Implementation</h2>
+<h3 id="script-objects">Script Objects</h3>
+<p>HFSS15</p>
+<ul>
+<li><code>oAnsoftApplication</code> - representing the entire application</li>
+<li><code>oDesktop</code> - representing the desktop</li>
+</ul>
+<p>ANSYS EDT</p>
+<pre><code class="language-py">import ScriptEnv
+ScriptEnv.Initialize('Ansoft.ElectronicsDesktop')
+oDesktop.RestoreWindow()
+</code></pre>

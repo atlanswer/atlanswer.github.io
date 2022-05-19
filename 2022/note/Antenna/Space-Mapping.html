@@ -1,0 +1,111 @@
+<hr />
+<h2 id="title-space-mappingauthor-atlanswertoc-truedate-2021-11-13-14-53-38updated-2021-11-14categories-notetags">title: Space Mapping
+author: Atlanswer
+toc: true
+date: 2021-11-13 14:53:38
+updated: 2021-11-14
+categories: Note
+tags:</h2>
+<p>Space mapping (SM) is a recognized method for speeding up electromagnetic (EM) optimization.</p>
+<p>This paper<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup> proposes a nre coarse- and fine-mesh SM technique for EM optimization incorporating mesh deformation. By incorporating mesh deformation into coarse-mesh EM optimization, the coarse-mesh EM responses change <em>continuously</em> as the values of the geometrical design variables change.</p>
+<!-- more -->
+<h2 id="intro">Intro</h2>
+<p>{% asset_img space_mapping.gif '&quot;Comparing&quot;&quot;Fig. 1. Linking companion coarse (empirical) and fine (EM) models through a mapping<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>&quot;'%}</p>
+<ul>
+<li>The circuit-theoretic models are simple and efficient, but lack the necessary accuracy or have limited validity range.</li>
+<li>The field-theoretic models are more complex and CPU intensive but can be significantly more accurate.</li>
+<li>The field-theoretic models are applicable to general geometries.</li>
+</ul>
+<p>Space mapping explores a mathematical link between the discrete coarse and the discrete fine EM field models. The coarse model allows us to explore different optimization starting points, solution robustness, local minima, parameter sensitivities and statistics, and other design characteristics within a practical time frame<sup class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup>.</p>
+<h2 id="theory">Theory</h2>
+<p>Consider an optimization problem for a given set of design specifications. The behavior of the system may be described by two distinct models, namely, a coarse model and a fine model.</p>
+<p>Let us define an \(l\)-dimensional vector of fine model parameters as</p>
+<p>\[
+\phi_f=[\phi_{f1}\phi_{f2}\ldots\phi_{fl}]^T
+\tag{1}
+\]</p>
+<p>and \(k\)-dimensional vector of coarse model parameters as</p>
+<p>\[
+\phi_c=[\phi_{c1}\phi_{c2}\ldots\phi_{ck}]^T
+\text{.}
+\tag{2}
+\]</p>
+<p>Also, let \(R_f(\phi_f)\) and \(R_c(\phi_c)\) denote the fine and coarse model responses at \(\phi_f\) and \(\phi_c\) respectively.</p>
+<p>The key idea behind the SM optimization technique is the generation of an appropriate transformation</p>
+<p>\[
+\phi_c=\operatorname{P}(\phi_f)
+\tag{3}
+\]</p>
+<p>mapping the fine model parameter space to the coarse model parameter space such that</p>
+<p>\[
+||\operatorname{R}_f(\phi_f)-\operatorname{R}_c(\phi_c)|| \leqslant \epsilon
+\tag{4}
+\]</p>
+<p>within some local modeling region around the optimal coarse model solution \(\phi_c^*\), where \(||\cdot||\) indicates a suitable norm and \(\epsilon\) is the error.</p>
+<p>It's desirable that \(\operatorname{P}\) is invertible, the inverses transformation</p>
+<p>\[
+\overline{\phi_f}=\operatorname{P}^{-1}(\phi_c^*)
+\tag{5}
+\]</p>
+<p>is used to find the fine model solution \(\overline{\phi_f}\) which is the image of \(\phi^*_c\) subject to \((4)\).</p>
+<h3 id="process">Process<sup class="footnote-ref"><a href="#fn3" id="fnref3:1">[3:1]</a></sup></h3>
+<p>Finding \(\operatorname{P}\) is a iterative process.</p>
+<p>{% asset_img process.png '&quot;Flowchart&quot; &quot;Fig. 2. Flow chart for the space mapping (SM) optimization technique.&quot;' %}</p>
+<p>Begin with a set of fine model base points \(\mathbf{B}_f={\phi_f^1,\phi_f^2,\ldots,\phi_f^m}\). The initial \(m\) base points are selected in the vicinity of a reasonable candidate for the fine model solution.</p>
+<p>Define each of the transformation \(\operatorname{P}_j\) as a linear combination fo some predefined and fixed fundamental functions</p>
+<p>\[
+\phi_{c} = \sum^n_{s=1}a_sf_s{\phi_f}=\operatorname{P}<em>j(\phi_f)=\mathbf{A}</em>{j}f(\phi_f)
+\tag{6}
+\]</p>
+<p>or for all points, in matrix form</p>
+<p>\[
+\mathbf{WDA}^T_j=\mathbf{WC}
+\tag{7}
+\]</p>
+<p>where</p>
+<p>\[
+\mathbf{C} = [\phi_c^1\phi_c^2\ldots\phi_c^{m_j}]^T
+\tag{8}
+\]
+\[
+\mathbf{D} = [f(\phi_f^1)f(\phi_f^2)\ldots f(\phi_f^{m_j})]^T
+\tag{9}
+\]</p>
+<p>and a weighting factor diagonal matrix \(\mathbf{W}\).</p>
+<p>The least-square solution to this system is</p>
+<p>\[
+\mathbf{A}^T_j=(\mathbf{D}^T\mathbf{W}^T\mathbf{WD})^{-1}\mathbf{D}^T\mathbf{W}^T\mathbf{WC}
+\text{.}
+\tag{10}
+\]</p>
+<p>{% asset_img illustration.png '&quot;illustration&quot; &quot;Fig. 3. Illustration of space mapping.' %}</p>
+<h3 id="coarse-and-fine-mesh-sm-optimization-incorporating-mesh-deformation">Coarse- and Fine-Mesh SM Optimization Incorporating Mesh Deformation</h3>
+<p>Let \(\bm{d}^j_i\) represent the 3-D coordinates of the \(i\)-th mesh node after mesh deformation in the \(j\)-th SM iteration. The 3-D coordinates \(\bm{d}^j_i\) as functions of coarse-model geometrical variable \(\phi_c\) using a triharmonic RBF method are formulated as</p>
+<p>\[
+\bm{d}^j_i(\phi_c)=
+\sum^{n_b}_ {k=1}\bm{p}^j_k(\phi_c)\sigma_k(\overline{\bm{d}^j_i})
++\sum^4_ {l=1}\bm{q}^j_l(\phi_c)\pi_l(\overline{\bm{d}^j_i})
+\tag{11}
+\]</p>
+<p>Let \(\bm{K}\) represents the system matrix for solving the coarse-mesh EM response using FEM, \(R^j_c\) represent the coarse-mesh EM response incorporating the mesh deformation corresponding to \(\phi_c\) in the \(j\)-th Sm iteration, formulated as</p>
+<p>\[
+R^j_c(\phi_c)=\bm{c}^T[\bm{K}(\bm{D^j(\phi_c)})]^{-1}\bm{b}
+\tag{12}
+\]</p>
+<p>Define a surrogate model that combines the coarse model with the mapping function, formulated as</p>
+<p>\[
+R^j_s(\phi,w)=\bm{c}^T[\bm{K}(\bm{D^j(f(\phi,w))})]^{-1}\bm{b}
+\tag{13}
+\]</p>
+<p>{% asset_img deformation_process.png '&quot;Deformation process&quot; &quot;Fig. 4. Flowchart of the proposed SM optimization incorporating the mesh deformation.&quot;' %}</p>
+<hr class="footnotes-sep" />
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>F. Feng, J. Zhang, W. Zhang, Z. Zhao, J. Jin, and Q.-J. Zhang, &quot;Coarse- and Fine-Mesh Space Mapping for EM Optimization Incorporating Mesh Deformation,&quot; IEEE Microwave and Wireless Components Letters, vol. 29, no. 8, pp. 510-512, 2019-08-01 2019, doi: 10.1109/lmwc.2019.2927113. <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>J. W. Bandler et al., &quot;Space mapping: the state of the art,&quot; in IEEE Transactions on Microwave Theory and Techniques, vol. 52, no. 1, pp. 337-361, Jan. 2004, doi: 10.1109/TMTT.2003.820904. <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn3" class="footnote-item"><p>J. W. Bandler, R. M. Biernacki, Shao Hua Chen, P. A. Grobelny and R. H. Hemmers, &quot;Space mapping technique for electromagnetic optimization,&quot; in IEEE Transactions on Microwave Theory and Techniques, vol. 42, no. 12, pp. 2536-2544, Dec. 1994, doi: 10.1109/22.339794. <a href="#fnref3" class="footnote-backref">↩︎</a> <a href="#fnref3:1" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
