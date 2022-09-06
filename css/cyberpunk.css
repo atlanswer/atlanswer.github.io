@@ -11585,6 +11585,17 @@ figure.highlight.foldable div.level-left {
 .fas {
   line-height: inherit;
 }
+.MathJax,
+.MathJax_Display,
+.MJXc-display,
+.MathJax_SVG_Display,
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.katex {
+  white-space: nowrap;
+}
 .katex-display {
   margin-top: -0.5em !important;
 }
